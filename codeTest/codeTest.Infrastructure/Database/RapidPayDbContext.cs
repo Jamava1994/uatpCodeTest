@@ -44,6 +44,9 @@ namespace RapidPay.Infrastructure.Database
                 payment.HasKey(x => x.Id);
             });
 
+            /* Indexes */
+            modelBuilder.Entity<Card>()
+                .HasIndex(x => x.Number);
         }
     }
 }
