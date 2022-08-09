@@ -9,6 +9,7 @@ namespace RapidPay.Infrastructure.Database
 
         public DbSet<Card>? Cards { get; set; }
         public DbSet<Payment>? Transactions { get; set; }
+        public DbSet<User>? Users { get; set; }
 
 
         public RapidPayDbContext()
