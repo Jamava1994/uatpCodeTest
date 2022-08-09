@@ -14,7 +14,6 @@ using RapidPay.Application.Features.User.Authenticate;
 using RapidPay.Application.Common.Services;
 using RapidPay.Application.Features.User.Create;
 using Microsoft.OpenApi.Models;
-using Microsoft.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -23,34 +22,34 @@ var configuration = builder.Configuration;
 builder.Services.AddControllers();
 
 builder.Services.AddSwaggerGen(c =>
-{
-    var securityScheme = new OpenApiSecurityScheme()
     {
-        Description = "JWT Authorization",
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.Http,
-        Scheme = "Bearer",
-    };
-
-    var securityRequirement = new OpenApiSecurityRequirement
-{
-    {
-        new OpenApiSecurityScheme
+        var securityScheme = new OpenApiSecurityScheme()
         {
-            Reference = new OpenApiReference
+            Description = "JWT Authorization",
+            Name = "Authorization",
+            In = ParameterLocation.Header,
+            Type = SecuritySchemeType.Http,
+            Scheme = "Bearer",
+        };
+    
+        var securityRequirement = new OpenApiSecurityRequirement
+        {
             {
-                Type = ReferenceType.SecurityScheme,
-                Id = "Bearer Authentication"
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer Authentication"
+                    }
+                },
+                new string[] {}
             }
-        },
-        new string[] {}
-    }
-};
-
-    c.AddSecurityDefinition("Bearer Authentication", securityScheme);
-    c.AddSecurityRequirement(securityRequirement);
-});
+        };
+    
+        c.AddSecurityDefinition("Bearer Authentication", securityScheme);
+        c.AddSecurityRequirement(securityRequirement);
+    });
 
 builder.Services.AddEndpointsApiExplorer()
     .AddUFE()
