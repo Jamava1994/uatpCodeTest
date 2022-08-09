@@ -28,9 +28,9 @@ namespace RapidPay.Application.Features.User.Create
             {
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _logger.LogError(ex.Message, ex);
                 throw;
             }
         }
