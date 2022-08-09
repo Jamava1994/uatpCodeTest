@@ -12,6 +12,7 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using RapidPay.Application.Features.User.Authenticate;
 using RapidPay.Application.Common.Services;
+using RapidPay.Application.Features.User.Create;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -51,6 +52,7 @@ builder.Services.AddEndpointsApiExplorer()
 builder.Services.AddScoped<IValidator<CreateCardCommand>, CreateCardCommandValidator>();
 builder.Services.AddScoped<IValidator<MakePaymentCommand>, MakePaymentCommandValidator>();
 builder.Services.AddScoped<IValidator<SignInCommand>, SignInCommandValidator>();
+builder.Services.AddScoped<IValidator<CreateUserCommand>, CreateUserCommandValidator>();
 
 /* Add Infrastructure services */
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
