@@ -2,6 +2,7 @@
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RapidPay.Application.Features.User.Authenticate;
 using RapidPay.Domain.Interfaces;
 using RapidPay.Infrastructure.Database;
@@ -33,6 +34,14 @@ namespace RapidPay.Application.Features.User.Create
 
                 if (!validation.IsValid)
                     return new BadRequestObjectResult(validation.Errors.First().ErrorMessage);
+
+                var userAlreadyExist = await _context.Users
+                  .AsNoTracking()
+                  .AnyAsync(x => x.Username == request.Username)
+                  .ConfigureAwait(false);
+
+                if (userAlreadyExist)
+                    return new ConflictObjectResult("User already exists.");
 
                 /* Calculate MD5 Hash */
                 request.Password = await _authenticationService

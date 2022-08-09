@@ -35,8 +35,8 @@ namespace RapidPay.Application.Features.Card.Create
                 {
                     var cardAlreadyExist = await _context.Cards
                         .AsNoTracking()
-                        .FirstOrDefaultAsync(x => x.Number == request.CardNumber)
-                        .ConfigureAwait(false) != null;
+                        .AnyAsync(x => x.Number == request.CardNumber)
+                        .ConfigureAwait(false);
 
                     if (cardAlreadyExist)
                         return new ConflictObjectResult("Card already exists."); /* We should have a generic response object for this kind of errors. */
