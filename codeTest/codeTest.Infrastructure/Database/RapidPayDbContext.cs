@@ -35,11 +35,15 @@ namespace RapidPay.Infrastructure.Database
             modelBuilder.Entity<Card>()
                 .HasAlternateKey(x => x.Number);
 
+            modelBuilder.Entity<User>()
+            .HasKey(x => x.Id);
+
             /* Payment entity configuration */
             modelBuilder.Entity<Payment>(payment =>
             {
                 payment.HasKey(x => x.Id);
             });
+
         }
     }
 }
