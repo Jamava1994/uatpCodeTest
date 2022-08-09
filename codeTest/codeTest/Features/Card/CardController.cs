@@ -7,7 +7,7 @@ using RapidPay.Application.Features.Card.Pay;
 
 namespace RapidPay.Application.Features.Card
 {
-    [Authorize]
+    [Authorize()]
     [ApiController]
     [Route("api/cards")]
     public class CardController : ControllerBase

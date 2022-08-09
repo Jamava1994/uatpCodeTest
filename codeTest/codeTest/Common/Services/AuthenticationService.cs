@@ -34,14 +34,16 @@ namespace RapidPay.Application.Common.Services
                 return null;
 
             var tokenHandler = new JwtSecurityTokenHandler();
+
             var tokenKey = Encoding.UTF8.GetBytes(_configuration["JWT:Key"]);
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
               {
              new Claim(ClaimTypes.Name, user.Username)
               }),
-                Expires = DateTime.UtcNow.AddMinutes(5),
+                Expires = DateTime.UtcNow.AddMinutes(30),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)
             };
 

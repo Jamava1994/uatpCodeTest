@@ -13,6 +13,8 @@ using Microsoft.IdentityModel.Tokens;
 using RapidPay.Application.Features.User.Authenticate;
 using RapidPay.Application.Common.Services;
 using RapidPay.Application.Features.User.Create;
+using Microsoft.OpenApi.Models;
+using Microsoft.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -20,9 +22,38 @@ var configuration = builder.Configuration;
 // Add services to the container.
 builder.Services.AddControllers();
 
+builder.Services.AddSwaggerGen(c =>
+{
+    var securityScheme = new OpenApiSecurityScheme()
+    {
+        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+    };
+
+    var securityRequirement = new OpenApiSecurityRequirement
+{
+    {
+        new OpenApiSecurityScheme
+        {
+            Reference = new OpenApiReference
+            {
+                Type = ReferenceType.SecurityScheme,
+                Id = "Bearer Authentication"
+            }
+        },
+        new string[] {}
+    }
+};
+
+    c.AddSecurityDefinition("Bearer Authentication", securityScheme);
+    c.AddSecurityRequirement(securityRequirement);
+});
+
 builder.Services.AddEndpointsApiExplorer()
     .AddUFE()
-    .AddSwaggerGen()
     .AddDbContext<RapidPayDbContext>()
     .AddMediatR(Assembly.GetExecutingAssembly())
     .AddAutoMapper(Assembly.GetExecutingAssembly())
@@ -36,13 +67,13 @@ builder.Services.AddEndpointsApiExplorer()
             o.SaveToken = true;
             o.TokenValidationParameters = new TokenValidationParameters()
             {
-                ValidateIssuer = true,
+                ValidateIssuer = false,
                 ValidateAudience = false,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
+                ValidateLifetime = false,
+                ValidateIssuerSigningKey = false,
                 ValidIssuer = configuration["JWT:Issuer"],
                 ValidAudience = configuration["JWT:Audience"],
-                IssuerSigningKey = new SymmetricSecurityKey(key)
+                IssuerSigningKey = new SymmetricSecurityKey(key),
             };
         });
 
@@ -68,11 +99,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
 app.UseAuthentication();
-
+app.UseAuthorization();
 app.MapControllers();
-
 app.Run();
