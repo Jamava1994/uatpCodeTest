@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\codeTest.Domain\RapidPay.Domain.csproj" />
+    <ProjectReference Include="..\RapidPay.Domain\RapidPay.Domain.csproj" />
     <ProjectReference Include="..\UniversalFeesExchange.Sdk\UniversalFeesExchange.Sdk.csproj" />
   </ItemGroup>
 
