@@ -72,7 +72,9 @@ namespace RapidPay.Application.Features.Card.Pay
                 await transaction.CommitAsync()
                     .ConfigureAwait(false);
 
-                return new OkObjectResult(_mapper.Map<MakePaymentCommandResponse>(payment));
+                var response = _mapper.Map<MakePaymentCommandResponse>(payment);
+
+                return new CreatedAtActionResult("Get", nameof(Domain.Card), routeValues: new { CardNumber = card.Number }, card);
             }
             catch (Exception ex)
             {

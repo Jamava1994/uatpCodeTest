@@ -7,7 +7,7 @@ using RapidPay.Application.Features.Card.Pay;
 
 namespace RapidPay.Application.Features.Card
 {
-    [Authorize()]
+    //[Authorize()]
     [ApiController]
     [Route("api/cards")]
     public class CardController : ControllerBase
@@ -19,7 +19,7 @@ namespace RapidPay.Application.Features.Card
             _mediator = mediator;
         }
 
-        [HttpGet("{CardNumber}/balance")]
+        [HttpGet("{CardNumber}/balance", Name = "Get")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetCardQueryResponse))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -31,12 +31,12 @@ namespace RapidPay.Application.Features.Card
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Create(CreateCardCommand command) => await _mediator.Send(command);
 
-        [HttpPut()]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MakePaymentCommandResponse))]
+        [HttpPut("{CardNumber}/pay")]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(MakePaymentCommandResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> Pay(MakePaymentCommand command) => await _mediator.Send(command);
+        public async Task<IActionResult> Pay([FromBody] MakePaymentCommand command) => await _mediator.Send(command);
 
 
     }

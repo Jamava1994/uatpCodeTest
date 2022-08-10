@@ -47,6 +47,9 @@ namespace RapidPay.Infrastructure.Database
             /* Indexes */
             modelBuilder.Entity<Card>()
                 .HasIndex(x => x.Number);
+
+            /* Initial seed */
+            modelBuilder.Entity<Card>().HasData(new Card("999999999999999") { Id = 1, Balance = 0 });
         }
     }
 }

@@ -55,7 +55,7 @@ namespace RapidPay.Application.Features.Card.Create
 
                     var result = _mapper.Map<CreateCardCommandResponse>(card);
 
-                    return new CreatedResult(new Uri("/api/cards", UriKind.Relative), new { CardNumber = result.CardNumber });
+                    return new CreatedAtActionResult("Get", nameof(Domain.Card), routeValues: new { CardNumber = result.CardNumber }, result);
                 }
                 else
                 {

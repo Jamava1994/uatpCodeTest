@@ -8,7 +8,7 @@ namespace RapidPay.Application.Features.User
     {
         public MappingProfiles()
         {
-            CreateMap<CreateUserCommand, Domain.User>().ForMember(x => x.Password, o => o.Ignore());
+            CreateMap<CreateUserCommand, Domain.User>().ReverseMap();
             CreateMap<SignInCommand, Domain.User>();
         }
     }

@@ -56,6 +56,8 @@ namespace RapidPay.Application.Features.User.Create
                 await _context.SaveChangesAsync()
                     .ConfigureAwait(false);
 
+                user.Password = String.Empty;
+
                 return new CreatedResult(String.Empty, user); /* Get users endpoint not implemented */
             }
             catch (Exception ex)
